@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily Micro-Mindfulness & Decision Helper</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen,
+        Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+      margin: 0;
+      padding: 1rem;
+      background: #f5fafd;
+      color: #222;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+    }
+    h1 {
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      text-align: center;
+    }
+    .container {
+      max-width: 480px;
+      width: 100%;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1.5rem;
+      box-sizing: border-box;
+    }
+    label {
+      font-weight: 600;
+      margin-top: 1rem;
+      display: block;
+    }
+    select, textarea, button {
+      width: 100%;
+      padding: 0.5rem;
+      margin-top: 0.25rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+    }
+    button {
+      margin-top: 1.5rem;
+      background-color: #0077cc;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+    button:hover {
+      background-color: #005fa3;
+    }
+    .output {
+      margin-top: 1.5rem;
+      background: #e1f0ff;
+      border-left: 4px solid #0077cc;
+      padding: 1rem;
+      border-radius: 4px;
+      white-space: pre-wrap;
+    }
+    /* Responsive */
+    @media (max-width: 500px) {
+      body {
+        padding: 1rem 0.5rem;
+      }
+      .container {
+        padding: 1rem;
+      }
+    }
+    /* Google AdSense container */
+    .adsense-container {
+      margin-top: 2rem;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+  <h1>Daily Micro-Mindfulness & Decision Helper</h1>
+  <div class="container">
+    <label for="mood">How do you feel right now?</label>
+    <select id="mood" aria-label="Select your current mood">
+      <option value="" disabled selected>Select mood</option>
+      <option value="happy">Happy</option>
+      <option value="stressed">Stressed</option>
+      <option value="tired">Tired</option>
+      <option value="overwhelmed">Overwhelmed</option>
+      <option value="anxious">Anxious</option>
+      <option value="neutral">Neutral</option>
+    </select>
+
+    <label for="decision">Enter one small daily decision or dilemma:</label>
+    <textarea id="decision" rows="3" placeholder="e.g. What should I eat for lunch?"></textarea>
+
+    <button id="generateBtn">Get Mindfulness & Decision Help</button>
+
+    <div id="result" class="output" aria-live="polite" role="region" style="display:none;"></div>
+  </div>
+
+  <div class="adsense-container">
+    <!-- Google AdSense placeholder - replace 'YOUR-ADSENSE-CLIENT-ID' with your actual client ID -->
+    <ins class="adsbygoogle"
+         style="display:block"
+         data-ad-client="ca-pub-YOUR-ADSENSE-CLIENT-ID"
+         data-ad-slot="1234567890"
+         data-ad-format="auto"
+         data-full-width-responsive="true"></ins>
+  </div>
+
+  <script>
+    // Placeholder AI response logic - replace with AI API integration
+    function generateMindfulness(mood) {
+      switch(mood) {
+        case 'happy': return "Take a moment to breathe deeply and savor your happiness.";
+        case 'stressed': return "Try 3 slow breaths, focusing on exhale longer than inhale.";
+        case 'tired': return "Close your eyes briefly, breathe deeply, and feel rejuvenated.";
+        case 'overwhelmed': return "Focus on one breath at a time, gently releasing tension.";
+        case 'anxious': return "Count your breaths down from 5 to 1 slowly to calm your mind.";
+        case 'neutral': return "Breathe in peace, breathe out distraction. Stay grounded.";
+        default: return "Take a calm breath and reset your focus for a moment.";
+      }
+    }
+
+    function generateDecisionHelp(mood, decision) {
+      // Simple heuristic suggestions, could be enhanced with AI API calls
+      if (!decision) return "Please enter a decision or dilemma to get help.";
+      let msg = "";
+      if (mood === 'stressed' || mood === 'overwhelmed' || mood === 'anxious') {
+        msg = `For your decision: "${decision}", consider breaking it down into smaller steps to reduce stress. Prioritize what feels most manageable first.`;
+      } else if (mood === 'tired') {
+        msg = `Since you're feeling tired, for the decision "${decision}", consider options that conserve your energy and allow rest.`;
+      } else if (mood === 'happy' || mood === 'neutral') {
+        msg = `With a clear mind, for the decision "${decision}", trust your instincts but review pros and cons briefly before acting.`;
+      } else {
+        msg = `For the decision "${decision}", reflect on your goals and pick what aligns best with them.`;
+      }
+      return msg;
+    }
+
+    document.getElementById('generateBtn').addEventListener('click', () => {
+      const mood = document.getElementById('mood').value;
+      const decision = document.getElementById('decision').value.trim();
+
+      if (!mood) {
+        alert('Please select how you feel.');
+        return;
+      }
+      if (!decision) {
+        alert('Please enter your decision or dilemma.');
+        return;
+      }
+
+      const mindfulnessText = generateMindfulness(mood);
+      const decisionText = generateDecisionHelp(mood, decision);
+
+      const resultDiv = document.getElementById('result');
+      resultDiv.style.display = 'block';
+      resultDiv.textContent = `${mindfulnessText}\n\nDecision helper:\n${decisionText}`;
+    });
+
+    // Load Google AdSense script
+    (adsbygoogle = window.adsbygoogle || []).push({});
+  </script>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+</body>
+</html>
