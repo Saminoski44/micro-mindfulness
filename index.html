@@ -63,7 +63,20 @@
       border-left: 4px solid #0077cc;
       padding: 1rem;
       border-radius: 4px;
-      white-space: pre-wrap;
+    }
+    .output p {
+      margin: 0.75rem 0;
+    }
+    .output ul {
+      padding-left: 1.2rem;
+      margin: 0.5rem 0;
+    }
+    .output a {
+      color: #0077cc;
+      text-decoration: none;
+    }
+    .output a:hover {
+      text-decoration: underline;
     }
     /* Responsive */
     @media (max-width: 500px) {
@@ -128,7 +141,6 @@
     }
 
     function generateDecisionHelp(mood, decision) {
-      // Simple heuristic suggestions, could be enhanced with AI API calls
       if (!decision) return "Please enter a decision or dilemma to get help.";
       let msg = "";
       if (mood === 'stressed' || mood === 'overwhelmed' || mood === 'anxious') {
@@ -141,6 +153,54 @@
         msg = `For the decision "${decision}", reflect on your goals and pick what aligns best with them.`;
       }
       return msg;
+    }
+
+    // Generate helpful links based on decision keywords
+    function generateHelpfulLinks(decision) {
+      const links = [];
+      const lowerDecision = decision.toLowerCase();
+
+      if (lowerDecision.includes('eat') || lowerDecision.includes('lunch') || lowerDecision.includes('food')) {
+        links.push({
+          text: 'Healthy Lunch Ideas',
+          url: 'https://www.healthline.com/nutrition/healthy-lunch-ideas'
+        });
+        links.push({
+          text: 'Quick & Easy Meals',
+          url: 'https://www.bbcgoodfood.com/recipes/collection/quick-easy'
+        });
+      }
+
+      if (lowerDecision.includes('walk') || lowerDecision.includes('exercise') || lowerDecision.includes('movement')) {
+        links.push({
+          text: 'Benefits of Walking',
+          url: 'https://www.health.harvard.edu/staying-healthy/walking-your-steps-to-health'
+        });
+        links.push({
+          text: 'Exercise Tips for Beginners',
+          url: 'https://www.cdc.gov/physicalactivity/basics/index.htm'
+        });
+      }
+
+      if (lowerDecision.includes('boss') || lowerDecision.includes('raise') || lowerDecision.includes('work')) {
+        links.push({
+          text: 'How to Ask for a Raise',
+          url: 'https://www.themuse.com/advice/how-to-ask-for-a-raise'
+        });
+        links.push({
+          text: 'Effective Workplace Communication',
+          url: 'https://www.mindtools.com/pages/main/newMN_TCS.htm'
+        });
+      }
+
+      if (links.length === 0) {
+        links.push({
+          text: 'Explore Mindfulness Resources',
+          url: 'https://www.mindful.org/category/meditation/'
+        });
+      }
+
+      return links;
     }
 
     document.getElementById('generateBtn').addEventListener('click', () => {
@@ -158,10 +218,19 @@
 
       const mindfulnessText = generateMindfulness(mood);
       const decisionText = generateDecisionHelp(mood, decision);
+      const helpfulLinks = generateHelpfulLinks(decision);
 
       const resultDiv = document.getElementById('result');
       resultDiv.style.display = 'block';
-      resultDiv.textContent = `${mindfulnessText}\n\nDecision helper:\n${decisionText}`;
+
+      // Build HTML for mindfulness, decision help, and links
+      let htmlContent = `<p>${mindfulnessText}</p><p><strong>Decision helper:</strong><br>${decisionText}</p><p><strong>Helpful Links:</strong><ul>`;
+      helpfulLinks.forEach(link => {
+        htmlContent += `<li><a href="${link.url}" target="_blank" rel="noopener noreferrer">${link.text}</a></li>`;
+      });
+      htmlContent += '</ul></p>';
+
+      resultDiv.innerHTML = htmlContent;
     });
 
     // Load Google AdSense script
